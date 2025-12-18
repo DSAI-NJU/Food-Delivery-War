@@ -19,6 +19,7 @@
 
 import asyncio
 import os
+from pathlib import Path
 import random
 from asyncio import Task
 from typing import Dict, List, Optional
@@ -90,7 +91,10 @@ class XiaoHongShuCrawler(AbstractCrawler):
                     headless=config.HEADLESS,
                 )
                 # stealth.min.js is a js script to prevent the website from detecting the crawler.
-                await self.browser_context.add_init_script(path="libs/stealth.min.js")
+                # Use an absolute path based on this file's location so the script is found
+                # regardless of the current working directory when the program is launched.
+                script_path = str(Path(__file__).resolve().parents[1] / "libs" / "stealth.min.js")
+                await self.browser_context.add_init_script(path=script_path)
 
             self.context_page = await self.browser_context.new_page()
             await self.context_page.goto(self.index_url)

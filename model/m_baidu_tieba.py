@@ -21,7 +21,7 @@
 # -*- coding: utf-8 -*-
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class TiebaNote(BaseModel):
@@ -42,6 +42,17 @@ class TiebaNote(BaseModel):
     total_replay_page: int = Field(default=0, description="回复总页数")
     ip_location: Optional[str] = Field(default="", description="IP地理位置")
     source_keyword: str = Field(default="", description="来源关键词")
+
+    @field_validator("total_replay_num", "total_replay_page", mode="before")
+    @classmethod
+    def _empty_to_zero(cls, v):
+        # 兼容为空字符串或None的情况
+        if v is None or v == "":
+            return 0
+        try:
+            return int(v)
+        except Exception:
+            return 0
 
 
 class TiebaComment(BaseModel):

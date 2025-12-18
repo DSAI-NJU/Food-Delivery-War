@@ -1,0 +1,45 @@
+2025-12-12 10:25:46 [INFO] MediaCrawler: [BaiduTieBaCrawler] 使用CDP模式启动浏览器
+2025-12-12 10:25:52 [INFO] MediaCrawler: [CDPBrowserManager] 检测到浏览器: Google Chrome (Unknown Version)
+2025-12-12 10:25:52 [INFO] MediaCrawler: [CDPBrowserManager] 浏览器路径: C:\Program Files\Google\Chrome\Application\chrome.exe
+2025-12-12 10:25:52 [INFO] MediaCrawler: [CDPBrowserManager] 用户数据目录: D:\VSCODE\MC_for_xhs\browser_data\cdp_tieba_user_data_dir
+2025-12-12 10:25:52 [INFO] MediaCrawler: [BrowserLauncher] 启动浏览器: C:\Program Files\Google\Chrome\Application\chrome.exe
+2025-12-12 10:25:52 [INFO] MediaCrawler: [BrowserLauncher] 调试端口: 9222
+2025-12-12 10:25:52 [INFO] MediaCrawler: [BrowserLauncher] 无头模式: False
+2025-12-12 10:25:52 [INFO] MediaCrawler: [BrowserLauncher] 等待浏览器在端口 9222 上准备就绪...
+2025-12-12 10:25:52 [INFO] MediaCrawler: [BrowserLauncher] 浏览器已在端口 9222 上准备就绪
+2025-12-12 10:25:53 [INFO] MediaCrawler: [CDPBrowserManager] CDP端口 9222 可访问
+2025-12-12 10:25:53 [INFO] MediaCrawler: [CDPBrowserManager] 清理处理器已注册
+2025-12-12 10:25:54 [INFO] MediaCrawler: [CDPBrowserManager] 获取到浏览器WebSocket URL: ws://localhost:9222/devtools/browser/292ce2ba-ea92-4b73-b15f-49a87947e3c1
+2025-12-12 10:25:54 [INFO] MediaCrawler: [CDPBrowserManager] 正在通过CDP连接到浏览器: ws://localhost:9222/devtools/browser/292ce2ba-ea92-4b73-b15f-49a87947e3c1
+2025-12-12 10:25:54 [INFO] MediaCrawler: [CDPBrowserManager] 成功连接到浏览器
+2025-12-12 10:25:54 [INFO] MediaCrawler: [CDPBrowserManager] 浏览器上下文数量: 1
+2025-12-12 10:25:54 [INFO] MediaCrawler: [CDPBrowserManager] 使用现有的浏览器上下文
+2025-12-12 10:25:54 [INFO] MediaCrawler: [TieBaCrawler] CDP浏览器信息: {'version': '143.0.7499.41', 'contexts_count': 1, 'debug_port': 9222, 'is_connected': True}
+2025-12-12 10:25:54 [INFO] MediaCrawler: [TieBaCrawler] Injecting anti-detection scripts...
+2025-12-12 10:25:54 [INFO] MediaCrawler: [TieBaCrawler] Anti-detection scripts injected
+2025-12-12 10:25:54 [INFO] MediaCrawler: [TieBaCrawler] 模拟真实用户访问路径...
+2025-12-12 10:25:54 [INFO] MediaCrawler: [TieBaCrawler] Step 1: 访问百度首页 https://www.baidu.com/
+2025-12-12 10:25:55 [INFO] MediaCrawler: [TieBaCrawler] Step 2: 等待 2秒 模拟用户浏览...
+2025-12-12 10:25:57 [INFO] MediaCrawler: [TieBaCrawler] Step 3: 查找并点击'贴吧'链接...
+2025-12-12 10:25:57 [INFO] MediaCrawler: [TieBaCrawler] 找到贴吧链接 (selector: a[href="http://tieba.baidu.com/"])
+2025-12-12 10:25:57 [INFO] MediaCrawler: [TieBaCrawler] Step 4: 点击贴吧链接...
+2025-12-12 10:25:57 [INFO] MediaCrawler: [TieBaCrawler] 链接target属性: _blank
+2025-12-12 10:25:57 [INFO] MediaCrawler: [TieBaCrawler] 链接会在新标签页打开,等待新页面...
+2025-12-12 10:25:57 [INFO] MediaCrawler: [TieBaCrawler] ✅ 已切换到新标签页 (贴吧页面)
+2025-12-12 10:25:57 [INFO] MediaCrawler: [TieBaCrawler] Step 5: 页面加载完成,等待 2秒...
+2025-12-12 10:25:59 [INFO] MediaCrawler: [TieBaCrawler] ✅ 成功通过百度首页进入贴吧! 当前URL: https://tieba.baidu.com/
+2025-12-12 10:25:59 [INFO] MediaCrawler: [TieBaCrawler.create_tieba_client] Begin create tieba API client...
+2025-12-12 10:25:59 [INFO] MediaCrawler: [TieBaCrawler.create_tieba_client] Extracted User-Agent from browser: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36
+2025-12-12 10:25:59 [INFO] MediaCrawler: [BaiduTieBaClient.pong] Begin to check tieba login state by cookies...
+2025-12-12 10:25:59 [INFO] MediaCrawler: [BaiduTieBaClient.pong] Login state verified by cookies (STOKEN: True, PTOKEN: True, BDUSS: True)
+2025-12-12 10:25:59 [INFO] MediaCrawler: [BaiduTieBaCrawler.search] Begin search baidu tieba keywords
+2025-12-12 10:25:59 [INFO] MediaCrawler: [BaiduTieBaCrawler.search] Current search keyword: 外卖大战
+2025-12-12 10:25:59 [INFO] MediaCrawler: [BaiduTieBaCrawler.search] search tieba keyword: 外卖大战, page: 1
+2025-12-12 10:25:59 [INFO] MediaCrawler: [BaiduTieBaClient.get_notes_by_keyword] 访问搜索页面: https://tieba.baidu.com/f/search/res?ie=utf-8&qw=%E5%A4%96%E5%8D%96%E5%A4%A7%E6%88%98&rn=10&pn=1&sm=1&only_thread=0
+2025-12-12 10:26:01 [INFO] MediaCrawler: [BaiduTieBaClient.get_notes_by_keyword] 成功获取搜索页面HTML,长度: 42896
+2025-12-12 10:26:01 [INFO] MediaCrawler: [BaiduTieBaClient.get_notes_by_keyword] 提取到 0 条帖子
+2025-12-12 10:26:01 [INFO] MediaCrawler: [BaiduTieBaCrawler.search] Search note list is empty
+2025-12-12 10:26:01 [INFO] MediaCrawler: [BaiduTieBaCrawler.start] Tieba Crawler finished ...
+2025-12-12 10:26:01 [INFO] MediaCrawler: [CDPBrowserManager] 浏览器连接已断开
+2025-12-12 10:26:01 [INFO] MediaCrawler: [BrowserLauncher] 正在关闭浏览器进程...
+2025-12-12 10:26:02 [INFO] MediaCrawler: [BrowserLauncher] 浏览器进程已关闭

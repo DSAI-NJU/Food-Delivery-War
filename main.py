@@ -17,6 +17,42 @@
 # 详细许可条款请参阅项目根目录下的LICENSE文件。
 # 使用本代码即表示您同意遵守上述原则和LICENSE中的所有条款。
 
+# 在 main.py 顶部添加
+from log_manager import log_manager
+
+# 修改 main 函数
+async def main():
+    # Init crawler
+    global crawler
+
+    # 记录开始信息
+    log_manager.log_crawler_start(
+        platform=config.PLATFORM,
+        crawler_type=config.CRAWLER_TYPE,
+        target=config.KEYWORDS[:50] + "..." if len(config.KEYWORDS) > 50 else config.KEYWORDS
+    )
+
+    # parse cmd
+    args = await cmd_arg.parse_cmd()
+
+    # init db
+    if args.init_db:
+        await db.init_db(args.init_db)
+        log_manager.log_success(f"Database {args.init_db} initialized successfully")
+        return
+
+    crawler = CrawlerFactory.create_crawler(platform=config.PLATFORM)
+    
+    try:
+        await crawler.start()
+        log_manager.log_crawler_end({
+            "日志文件": log_manager.get_log_file_path(),
+            "平台": config.PLATFORM,
+            "爬取类型": config.CRAWLER_TYPE
+        })
+    except Exception as e:
+        log_manager.log_error("爬虫执行失败", e)
+        raise
 
 import asyncio
 import sys

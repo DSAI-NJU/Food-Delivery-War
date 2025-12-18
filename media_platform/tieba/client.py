@@ -245,7 +245,7 @@ class BaiduTieBaClient(AbstractApiClient):
         keyword: str,
         page: int = 1,
         page_size: int = 10,
-        sort: SearchSortType = SearchSortType.TIME_DESC,
+        sort: SearchSortType = SearchSortType.TIME_ASC,
         note_type: SearchNoteType = SearchNoteType.FIXED_THREAD,
     ) -> List[TiebaNote]:
         """

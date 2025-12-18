@@ -116,10 +116,15 @@ class TieBaExtractor:
         content_selector = Selector(text=page_content)
         first_floor_selector = content_selector.xpath("//div[@class='p_postlist'][1]")
         only_view_author_link = content_selector.xpath("//*[@id='lzonly_cntn']/@href").get(default='').strip()
-        note_id = only_view_author_link.split("?")[0].split("/")[-1]
+        note_id = self._extract_note_id(content_selector, only_view_author_link)
         # 帖子回复数、回复页数
         thread_num_infos = content_selector.xpath(
             "//div[@id='thread_theme_5']//li[@class='l_reply_num']//span[@class='red']")
+        # 部分帖子页面缺少页数/回复数节点，增加保护避免列表越界
+        total_reply = thread_num_infos[0].xpath("./text()").get(default='').strip() if len(
+            thread_num_infos) >= 1 else ''
+        total_reply_page = thread_num_infos[1].xpath("./text()").get(default='').strip() if len(
+            thread_num_infos) >= 2 else ''
         # IP地理位置、发表时间
         other_info_content = content_selector.xpath(".//div[@class='post-tail-wrap']").get(default="").strip()
         ip_location, publish_time = self.extract_ip_and_pub_time(other_info_content)
@@ -127,19 +132,36 @@ class TieBaExtractor:
                          desc=content_selector.xpath("//meta[@name='description']/@content").get(default='').strip(),
                          note_url=const.TIEBA_URL + f"/p/{note_id}",
                          user_link=const.TIEBA_URL + first_floor_selector.xpath(
-                             ".//a[@class='p_author_face ']/@href").get(default='').strip(),
+                             ".//a[@class='p_author_face ']/@href").get(default='').strip() if first_floor_selector else '',
                          user_nickname=first_floor_selector.xpath(
-                             ".//a[@class='p_author_name j_user_card']/text()").get(default='').strip(),
+                             ".//a[@class='p_author_name j_user_card']/text()").get(default='').strip() if first_floor_selector else '',
                          user_avatar=first_floor_selector.xpath(".//a[@class='p_author_face ']/img/@src").get(
-                             default='').strip(),
+                             default='').strip() if first_floor_selector else '',
                          tieba_name=content_selector.xpath("//a[@class='card_title_fname']/text()").get(
                              default='').strip(), tieba_link=const.TIEBA_URL + content_selector.xpath(
                 "//a[@class='card_title_fname']/@href").get(default=''), ip_location=ip_location,
                          publish_time=publish_time,
-                         total_replay_num=thread_num_infos[0].xpath("./text()").get(default='').strip(),
-                         total_replay_page=thread_num_infos[1].xpath("./text()").get(default='').strip(), )
+                         total_replay_num=total_reply,
+                         total_replay_page=total_reply_page, )
         note.title = note.title.replace(f"【{note.tieba_name}】_百度贴吧", "")
         return note
+
+    @staticmethod
+    def _extract_note_id(content_selector: Selector, only_view_author_link: str) -> str:
+        """尽量从多种位置提取帖子ID，避免结构变化导致异常"""
+        candidates = [only_view_author_link]
+        candidates.append(content_selector.xpath("//link[@rel='canonical']/@href").get(default=''))
+        candidates.append(content_selector.xpath("//meta[@property='og:url']/@content").get(default=''))
+        for raw in candidates:
+            raw = (raw or '').strip()
+            if not raw:
+                continue
+            parts = raw.split("?")[0].rstrip("/").split("/")
+            if parts:
+                note_id = parts[-1]
+                if note_id.isdigit():
+                    return note_id
+        return ''
 
     def extract_tieba_note_parment_comments(self, page_content: str, note_id: str) -> List[TiebaComment]:
         """
@@ -196,7 +218,10 @@ class TieBaExtractor:
             comment_value = self.extract_data_field_value(comment_ele)
             if not comment_value:
                 continue
-            comment_user_a_selector = comment_ele.xpath("./a[@class='j_user_card lzl_p_p']")[0]
+            comment_user_a_selector_list = comment_ele.xpath("./a[@class='j_user_card lzl_p_p']")
+            if not comment_user_a_selector_list:
+                continue
+            comment_user_a_selector = comment_user_a_selector_list[0]
             content = utils.extract_text_from_html(
                 comment_ele.xpath(".//span[@class='lzl_content_main']").get(default=""))
             comment = TiebaComment(

@@ -1,0 +1,14 @@
+import pandas as pd
+
+def json_to_csv_pandas(json_file, csv_file):
+    """使用Pandas转换，支持多种JSON格式"""
+    # 读取JSON
+    df = pd.read_json(json_file)
+    
+    # 保存为CSV
+    df.to_csv(csv_file, index=False, encoding='utf-8-sig')
+    print(f"✅ 转换完成: {csv_file}")
+    return df
+
+# 使用示例
+df = json_to_csv_pandas(r"D:\VSCODE\MC_for_xhs\data\xhs\json\search_contents_2025-12-04.json", r"D:\VSCODE\MC_for_xhs\data\xhs\json\search_contents_2025-12-04.csv")
